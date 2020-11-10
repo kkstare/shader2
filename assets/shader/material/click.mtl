@@ -1,0 +1,32 @@
+{
+  "__type__": "cc.Material",
+  "_name": "click",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "178f7963-b4d4-4930-ae5c-195cb1dc5cf0"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "radius": 200,
+        "color": {
+          "__type__": "cc.Color",
+          "r": 0,
+          "g": 0,
+          "b": 255,
+          "a": 255
+        },
+        "size": {
+          "__type__": "cc.Vec2",
+          "x": 320,
+          "y": 640
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}
