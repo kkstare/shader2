@@ -255,10 +255,18 @@ CCProgram fs %{
       #if IS_POLYGON
           a = vec4(1,1,1,1);
           o = vec4(1,1,1,1);
-          a*=texture(texture_polygon,uv);
-          float x_POLYGON = 0.5;
-          if( a.b*a.r*a.g < x_POLYGON){
-          // if( a.b<x && a.r<x && a.g<x){
+
+
+
+          a *= texture(texture_polygon,uv);
+
+          a *= texture(texture,uv);
+
+
+          float x_POLYGON = 0.05;
+          
+          // if(a.r * a.b *a.g <x_POLYGON){
+          if( a.b<x_POLYGON && a.r<x_POLYGON && a.g<x_POLYGON){
             o*= texture(texture,uv );
           }else{
             discard;
