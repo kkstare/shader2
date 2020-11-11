@@ -15,7 +15,6 @@ CCEffect %{
         alphaThreshold: { value: 0.5 }
 
         color: {value: [1,1,255,255] ,editor: {type: color} }
-
         size: {value: [960,640]}
         radius: {value: 50}
 }%
@@ -76,6 +75,7 @@ CCProgram fs %{
     vec2 clickPos;
     vec2 size;
     float radius;
+    float clickTime;
   };
 
   #endif
@@ -88,15 +88,16 @@ CCProgram fs %{
       CCTexture(texture, v_uv0, o);
     #endif
     
-    float dis = radius * (sin(cc_time.x) + 1.0)/2.0;
+    float dis = radius * (sin(  5.0*(cc_time.x - clickTime/1000.0) ) + 1.0)/2.0;
+    // float dis = radius * (sin(cc_time.y) + 1.0)/2.0;
 
     float posX = clickPos.x / size.x;
     float posY = clickPos.y / size.y;
 
-    if(distance(v_uv0*size,vec2(posX,posY))<radius/2.0  ){
-      a_color = normalize(color)*0.8;
-    }else if(distance(v_uv0*size,vec2(posX,posY))<radius){
-      a_color = normalize(color)*0.2 ;
+    if(distance(v_uv0*size,clickPos ) < dis/2.0  ){
+      // a_color = normalize(color) ;
+    }else if(distance(v_uv0*size,clickPos) < dis){
+      a_color *= normalize(color);
     }
 
 

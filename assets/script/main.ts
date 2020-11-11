@@ -19,12 +19,20 @@ export default class NewClass extends cc.Component {
         // console.log(this.node.getContentSize())
         let size = this.node.getContentSize()
         console.log(size)
-        this.bg.getComponent(cc.Sprite).getMaterial(0).setProperty("size", size.width,size.height)
+        this.bg.getComponent(cc.Sprite).getMaterial(0).setProperty("size", cc.v2(size.width,size.height) )
         
         this.bg.on(cc.Node.EventType.TOUCH_START,(event)=>{
-            console.log(event.getLocation())
+            // console.log(event.getLocation())
+            let pos = event.getLocation()
+            this.bg.getComponent(cc.Sprite).getMaterial(0).setProperty("clickPos", cc.v2(pos.x,size.height - pos.y) )
+            this.bg.getComponent(cc.Sprite).getMaterial(0).setProperty("clickTime", cc.director.getTotalTime()   )
+
+            console.log(cc.director.getTotalTime())
         })
     }
+
+   
+    
 
     start () {
 

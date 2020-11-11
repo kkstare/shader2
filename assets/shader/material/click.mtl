@@ -10,7 +10,7 @@
   "_techniqueData": {
     "0": {
       "props": {
-        "radius": 200,
+        "radius": 30,
         "color": {
           "__type__": "cc.Color",
           "r": 0,

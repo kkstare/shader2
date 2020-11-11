@@ -1,0 +1,24 @@
+{
+  "__type__": "cc.Material",
+  "_name": "print",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "c51c05f5-9850-46e7-8662-1efd8e8ec1a3"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "LOCK_TIME": true,
+        "LOCK_SPEED": false
+      },
+      "props": {
+        "runTime": 5,
+        "width": 500,
+        "rows": 6
+      }
+    }
+  }
+}

@@ -1,0 +1,280 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs 
+      frag: fs
+      blendState: 
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+
+        cutValue : {value : 0.9}
+        fluaxyColor: {value: [255,0,255,255] ,editor: {type: color} }
+        size : {value: [600,418] }
+        radius: {value: 10.0}
+        texture2: { value: white }
+        texture3: { value: white }
+        circleRadius : {value: 100.0}
+        texture_polygon : { value: white }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    v_uv0 = a_uv0;
+   
+      #if IS_SHADOW
+        pos.y = pos.y*2.0;
+      #endif
+
+    #endif
+
+    v_color = a_color;
+
+    gl_Position = pos;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+  
+  #include <alpha-test>
+  #include <texture>
+  #include <cc-global>
+  #include <cc-local>
+  in vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  uniform sampler2D texture2;
+  uniform common{
+    vec2 size;
+  };
+    #if IS_CUT
+        uniform cut{
+          float cutValue;
+        };
+    #endif
+
+  
+    #if IS_FLUXAY
+       uniform fluaxy{
+          vec4 fluaxyColor;
+        };
+    #endif
+
+    #if IS_BLUR
+        uniform buur{
+          float radius;
+        };
+    #endif
+
+    #if IS_NOISE
+
+    #endif
+
+    #if IS_FUSE
+          uniform sampler2D texture3;
+    #endif 
+
+    #if IS_WATER
+
+    #endif
+
+    #if IS_SHADOW
+    #endif
+
+    #if IS_CIRCLE
+        uniform circle{
+          float circleRadius;
+        };
+    #endif
+
+    #if IS_POLYGON
+      uniform sampler2D texture_polygon;
+    
+    #endif
+
+
+
+  #endif
+
+
+  // 获取模糊颜色
+  vec4 getBlurColor (vec2 pos ) {
+    vec4 color = vec4(0); // 初始颜色
+    float sum = 0.0; // 总权重
+    
+    // 这个地方的RADIUS一定要是const类型的
+    const float RADIUS = 10.0;
+    vec2 size = vec2(500,417);
+    // 卷积过程
+    for (float r = -RADIUS; r <= RADIUS; r++) { // 水平方向
+      for (float c = -RADIUS; c <= RADIUS; c++) { // 垂直方向
+        vec2 target = pos + vec2(r / size.x, c / size.y); // 目标像素位置
+        float weight = (RADIUS - abs(r)) * (RADIUS - abs(c)); // 计算权重
+        color += texture2D(texture, target) * weight; // 累加颜色
+        sum += weight; // 累加权重
+      }
+    }
+    color /= sum; // 求出平均值
+    return color;
+  }
+
+  bool isIncludeByAB(float index , float a,float b){
+    if(index >= a && index <= b){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+    vec2 uv = v_uv0;
+    vec4 a_color = v_color;
+    vec4 a = vec4(1,1,1,1);
+
+
+    #if USE_TEXTURE
+
+      o*=texture(texture,uv);
+
+      //照片去白色像素
+      #if IS_CUT
+        if(o.r >cutValue && o.b>cutValue && o.g>cutValue ) {
+            discard;
+        }
+      #endif
+      
+   
+      //流光效果
+      #if IS_FLUXAY
+          if(  abs( tan(cc_time.x) - (uv.x+uv.y)/2.0 ) <0.02 ) {
+              a_color = fluaxyColor;
+            }
+      #endif
+
+
+      //虚化效果
+      #if IS_BLUR
+        o = vec4(1,1,1,1);
+        a_color = getBlurColor(uv);
+        a_color.a = v_color.a;
+      #endif
+
+      //消散效果
+      #if IS_NOISE
+          a = vec4(1,1,1,1);
+          a*=texture(texture2,uv);
+
+          if(a.r< abs(sin(cc_time.x)) ) {
+            discard;
+          }
+      #endif
+      
+      // 图片替换消散效果
+      #if IS_FUSE
+          o = vec4(1,1,1,1);
+          a = vec4(1,1,1,1);
+          a*=texture(texture3,uv);
+          float x = sin(cc_time.x);
+          if( a.b> x && a.g>x && a.r >x ){
+            o*=texture(texture,uv );
+          }else{
+            o*=texture(texture3,uv  );
+          }
+      #endif
+
+
+      //水面效果
+      #if IS_WATER
+          o = vec4(1,1,1,1);
+        if(uv.y > 0.4 + sin(uv.x * 12.35+ cc_time.x)*0.02 ) {
+             uv.y = uv.y+ sin(uv.x*12.35+ cc_time.x)*0.02;
+             //定义水波颜色
+             vec4 waterColor = vec4(2,199,255,255);
+              //在shader中计算要进行归一化
+              a_color = (normalize(waterColor)+a_color)/2.0;
+          }
+          o*=texture(texture,uv );
+      #endif
+
+      //倒影效果
+      #if IS_SHADOW
+        o = vec4(1,1,1,1);
+        if(uv.y<=0.5) {
+          uv.y = uv.y *2.0;
+        }else{
+          uv.y = (1.0- uv.y)*2.0;
+        }
+        o*=texture(texture,uv );
+      #endif
+
+      //圆形图片
+      #if IS_CIRCLE
+        float dis =  distance(uv*size,vec2(0.5,0.5)*size );
+        if(dis>circleRadius){
+          discard;
+        }
+      #endif
+
+      //不规则多边形
+      #if IS_POLYGON
+          a = vec4(1,1,1,1);
+          o = vec4(1,1,1,1);
+          a*=texture(texture_polygon,uv);
+          float x_POLYGON = 0.5;
+          if( a.b*a.r*a.g < x_POLYGON){
+          // if( a.b<x && a.r<x && a.g<x){
+            o*= texture(texture,uv );
+          }else{
+            discard;
+          }
+      #endif
+
+ 
+      
+    #endif
+
+    o *= a_color;
+
+    ALPHA_TEST(o);
+
+  
+
+    gl_FragColor = o;
+  }
+}%

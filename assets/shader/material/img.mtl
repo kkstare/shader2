@@ -1,0 +1,51 @@
+{
+  "__type__": "cc.Material",
+  "_name": "img",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "155095cb-69f1-42e0-b65f-6a56880b3a20"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "IS_CUT": false,
+        "IS_FLUXAY": true,
+        "IS_BLUR": false,
+        "IS_FUSE": true,
+        "IS_CIRCLE": false,
+        "IS_POLYGON": false,
+        "IS_SHADOW": true,
+        "IS_NOISE": true,
+        "IS_WATER": true
+      },
+      "props": {
+        "size": {
+          "__type__": "cc.Vec2",
+          "x": 512,
+          "y": 512
+        },
+        "radius": 20,
+        "fluaxyColor": {
+          "__type__": "cc.Color",
+          "r": 0,
+          "g": 255,
+          "b": 0,
+          "a": 255
+        },
+        "circleRadius": 200,
+        "texture3": {
+          "__uuid__": "aa3dbbb8-3dc8-4271-a308-59e1a68abcdb"
+        },
+        "texture_polygon": {
+          "__uuid__": "25b9c5ea-76d6-460d-b2b2-3973856670bc"
+        },
+        "texture2": {
+          "__uuid__": "fb48ee50-7cd6-4654-be6c-037d0d813bef"
+        }
+      }
+    }
+  }
+}
