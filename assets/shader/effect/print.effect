@@ -100,18 +100,7 @@ CCProgram fs %{
       CCTexture(texture, v_uv0, o);
 
       if(isBegin) {
-          if(rows == 1.0){
-          #if LOCK_SPEED
-              float runTime = width/speed;
-          #endif
-
-          float curProgress = (cc_time.x - beginTime/1000.0)/runTime; 
-          if(uv.x < curProgress){
-            color.a = 1.0;
-          }else{
-            color.a = 0.0;
-          }
-        }else{
+   
           #if LOCK_SPEED
               float runTime = width*rows/speed;
           #endif
@@ -139,12 +128,9 @@ CCProgram fs %{
               //还未开始跑的
               color.a = 0.0;
           }
-        }
       }else{
         color.a = 0.0;
       }
-
-      // if(cc_time.x - beginTime/1000.0)
 
     #endif
 
