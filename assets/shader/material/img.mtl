@@ -12,14 +12,15 @@
       "defines": {
         "USE_TEXTURE": true,
         "IS_CUT": false,
-        "IS_FLUXAY": true,
+        "IS_FLUXAY": false,
         "IS_BLUR": false,
         "IS_FUSE": false,
         "IS_CIRCLE": false,
         "IS_POLYGON": false,
-        "IS_SHADOW": true,
+        "IS_SHADOW": false,
         "IS_NOISE": false,
-        "IS_WATER": true
+        "IS_WATER": false,
+        "IS_TIGER": true
       },
       "props": {
         "size": {
@@ -27,7 +28,7 @@
           "x": 512,
           "y": 512
         },
-        "radius": 20,
+        "radius": 3.800000000000348,
         "fluaxyColor": {
           "__type__": "cc.Color",
           "r": 0,
@@ -36,6 +37,11 @@
           "a": 255
         },
         "circleRadius": 200,
+        "length": 120.40000000000049,
+        "number": 3,
+        "maxLength": 200,
+        "offset": 120,
+        "dirction": 0,
         "texture3": {
           "__uuid__": "aa3dbbb8-3dc8-4271-a308-59e1a68abcdb"
         },

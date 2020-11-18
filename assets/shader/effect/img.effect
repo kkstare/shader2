@@ -22,6 +22,11 @@ CCEffect %{
         texture3: { value: white }
         circleRadius : {value: 100.0}
         texture_polygon : { value: white }
+
+        maxLength : {value : 200.0}
+        number : {value : 2.0}
+        dirction : {value : 1}
+        offset : { value : 100.0}
 }%
 
 
@@ -126,6 +131,16 @@ CCProgram fs %{
     
     #endif
 
+    #if IS_TIGER
+      uniform tiger{
+        float maxLength;
+        float number;
+        float dirction;
+        float offset;
+      };
+   
+    #endif
+
 
 
   #endif
@@ -151,6 +166,28 @@ CCProgram fs %{
     color /= sum; // 求出平均值
     return color;
   }
+
+
+  // 获取模糊颜色
+    vec4 getBlurColor2 (vec2 pos ,float length,float dirction,float number ) {
+      vec4 color = texture2D(texture, vec2(0,pos.y - offset/1000.0))/floor(number); // 初始颜色
+      float sum = 0.0; // 总权重
+
+
+      for(float index = 1.0 ; index < 10.0 ;index++){
+        if(index<=number){
+          vec2 target = vec2(pos.x,pos.y + offset/1000.0 ) + vec2(0.0, -index*length/1000.0/floor(number)  ); // 目标像素位置
+          color += texture2D(texture, target)/floor(number); // 累加颜色
+        }
+
+      }
+
+
+
+      // color.a = texture2D(texture, pos).a;
+      return color;
+    }
+
 
   bool isIncludeByAB(float index , float a,float b){
     if(index >= a && index <= b){
@@ -192,7 +229,7 @@ CCProgram fs %{
       #if IS_BLUR
         o = vec4(1,1,1,1);
         a_color = getBlurColor(uv);
-        a_color.a = v_color.a;
+        // a_color.a = v_color.a;
       #endif
 
       //消散效果
@@ -256,12 +293,8 @@ CCProgram fs %{
           a = vec4(1,1,1,1);
           o = vec4(1,1,1,1);
 
-
-
           a *= texture(texture_polygon,uv);
-
           a *= texture(texture,uv);
-
 
           float x_POLYGON = 0.05;
           
@@ -273,7 +306,11 @@ CCProgram fs %{
           }
       #endif
 
- 
+      //老虎机转动
+      #if IS_TIGER
+        o = vec4(1,1,1,1);
+        a_color = getBlurColor2(uv,maxLength,dirction,number);
+      #endif
       
     #endif
 
