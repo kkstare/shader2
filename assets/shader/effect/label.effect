@@ -17,12 +17,11 @@ CCEffect %{
         angularSpeed: {value: 3.0}
         moveSpeed: {value: 5.0}
         detaY: {value : 0}
- 
- 
+
         beginColor: {value: [255,0,0,255] ,editor: {type: color} }
         endColor: {value: [0,255,0,255],editor: {type: color} }
-
-        outLineColor: {value: [255,255,255,255],editor: {type: color} }
+        delline_width: {value : 0.05}
+        delline_color: {value: [0,0,0,255],editor: {type: color} }
 
 }%
 
@@ -106,13 +105,14 @@ CCProgram fs %{
 
     #if IS_DYNAMIC
     #endif
+  #endif
 
-    #if IS_OUTLINE
-      uniform outLine{
-        vec4 outLineColor; 
-      };
-    #endif
-
+  
+  #if IS_DELLINE
+    uniform delline{
+      vec4 delline_color;
+      float delline_width;  
+    };
   #endif
 
   void main () {
@@ -184,13 +184,13 @@ CCProgram fs %{
               a_color = beginColor ;
             }
           #endif
-
-          #if IS_OUTLINE
-
-          #endif
-
         #endif
-
+        
+         #if IS_DELLINE
+            if(uv.y>0.5-delline_width/2.0 && uv.y<0.5+delline_width ){
+                a_color = delline_color;
+            }
+          #endif
           o*=texture(texture,uv);
     #endif
 

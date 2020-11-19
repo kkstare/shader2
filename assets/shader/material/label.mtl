@@ -11,20 +11,21 @@
     "0": {
       "defines": {
         "USE_TEXTURE": true,
-        "USE_DYNAMIC": true,
+        "USE_DYNAMIC": false,
         "USE_ALPHA_TEST": false,
-        "USE_COLOR": true,
+        "USE_COLOR": false,
         "IS_VERTICAL": false,
         "IS_HORIZONTAL": false,
         "IS_OUTLINE": false,
-        "IS_DYNAMIC": false
+        "IS_DYNAMIC": false,
+        "IS_DELLINE": true
       },
       "props": {
         "beginColor": {
           "__type__": "cc.Color",
-          "r": 255,
-          "g": 0,
-          "b": 0,
+          "r": 190,
+          "g": 32,
+          "b": 32,
           "a": 255
         },
         "endColor": {
@@ -33,7 +34,8 @@
           "g": 255,
           "b": 0,
           "a": 255
-        }
+        },
+        "delline_width": 0.05
       }
     }
   }
