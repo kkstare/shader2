@@ -19,7 +19,8 @@
         "IS_POLYGON": false,
         "IS_SHADOW": true,
         "IS_NOISE": false,
-        "IS_WATER": true
+        "IS_WATER": true,
+        "IS_TIGER": false
       },
       "props": {
         "size": {

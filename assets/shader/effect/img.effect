@@ -22,6 +22,11 @@ CCEffect %{
         texture3: { value: white }
         circleRadius : {value: 100.0}
         texture_polygon : { value: white }
+
+        maxLength : {value : 200.0}
+        number : {value : 2.0}
+        dirction : {value : 1}
+        offset : { value : 100.0}
 }%
 
 
@@ -126,6 +131,16 @@ CCProgram fs %{
     
     #endif
 
+    #if IS_TIGER
+      uniform tiger{
+        float maxLength;
+        float number;
+        float dirction;
+        float offset;
+      };
+   
+    #endif
+
 
 
   #endif
@@ -154,6 +169,7 @@ CCProgram fs %{
     color /= sum; // 求出平均值
     return color;
   }
+
 
   bool isIncludeByAB(float index , float a,float b){
     if(index >= a && index <= b){
@@ -195,7 +211,7 @@ CCProgram fs %{
       #if IS_BLUR
         o = vec4(1,1,1,1);
         a_color = getBlurColor(uv);
-        a_color.a = v_color.a;
+        // a_color.a = v_color.a;
       #endif
 
       //消散效果
@@ -259,12 +275,8 @@ CCProgram fs %{
           a = vec4(1,1,1,1);
           o = vec4(1,1,1,1);
 
-
-
           a *= texture(texture_polygon,uv);
-
           a *= texture(texture,uv);
-
 
           float x_POLYGON = 0.05;
           
