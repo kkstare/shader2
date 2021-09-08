@@ -21,8 +21,7 @@ CCEffect %{
  
         beginColor: {value: [255,0,0,255] ,editor: {type: color} }
         endColor: {value: [0,255,0,255],editor: {type: color} }
-
-        outLineColor: {value: [255,255,255,255],editor: {type: color} }
+        # outLineColor: {value: [255,255,255,255],editor: {type: color} }
 
 }%
 
@@ -107,11 +106,11 @@ CCProgram fs %{
     #if IS_DYNAMIC
     #endif
 
-    #if IS_OUTLINE
-      uniform outLine{
-        vec4 outLineColor; 
-      };
-    #endif
+    // #if IS_OUTLINE
+    //   uniform outLine{
+    //     vec4 outLineColor; 
+    //   };
+    // #endif
 
   #endif
 
@@ -132,10 +131,8 @@ CCProgram fs %{
               uv.y  = uv.y + amplitude *sin(angularSpeed * 3.14 * uv.x)*sin(moveSpeed*cc_time.x) +detaY ;
             }
 
-            //横向弹簧运动
-            // uv.x =  (sin( cc_time.x)/2.0)  + uv.x ;
 
-            //单峰波浪
+            // 单峰波浪
             // if(uv.x >  abs(sin( cc_time.x))-0.1 && uv.x <  abs(sin( cc_time.x))+0.1 ) {
             //     uv.y = uv.y +  abs( abs(sin( cc_time.x)) -uv.x ) ;
             // }
@@ -173,21 +170,21 @@ CCProgram fs %{
             // }
             
             // 渐变扫光效果
-            // if(  abs( tan(cc_time.x) - (uv.x+uv.y)/2.0 ) <0.05 ) {
-            //   a_color =  endColor  ;
-            // }
+            if(  abs( tan(cc_time.x) - (uv.x+uv.y)/2.0 ) <0.05 ) {
+              a_color =  endColor  ;
+            }
             
             // 交错扫光效果
-            if(  abs( sin(cc_time.x) - (uv.x+uv.y)/2.0 ) <0.05 ) {
-              a_color =  endColor  ;
-            }else if(abs( sin(cc_time.x) - (1.0-uv.x+uv.y)/2.0 ) <0.05){
-              a_color = beginColor ;
-            }
+            // if(  abs( sin(cc_time.x) - (uv.x+uv.y)/2.0 ) <0.05 ) {
+            //   a_color =  endColor  ;
+            // }else if(abs( sin(cc_time.x) - (1.0-uv.x+uv.y)/2.0 ) <0.05){
+            //   a_color = beginColor ;
+            // }
           #endif
 
-          #if IS_OUTLINE
+          // #if IS_OUTLINE
 
-          #endif
+          // #endif
 
         #endif
 

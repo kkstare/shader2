@@ -1,0 +1,118 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    v_uv0 = a_uv0;
+    #endif
+
+    v_color = a_color;
+
+    gl_Position = pos;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+  
+  #include <alpha-test>
+  #include <texture>
+  #include <cc-global>
+  #include <cc-local>
+  in vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  #endif
+  #define TAU 6.28318530718
+  #define MAX_ITER 5
+  #define iResolution vec2(960.0,640.0)
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+        CCTexture(texture, v_uv0, o);
+    #endif
+
+
+    float time = cc_time.x * .5+23.0;
+      // uv should be the 0-1 uv of texture...
+    vec2 uv = gl_FragCoord.xy / iResolution.xy;
+      
+    #if SHOW_TILING
+      vec2 p = mod(uv*TAU*2.0, TAU)-250.0;
+    #else
+        vec2 p = mod(uv*TAU, TAU)-250.0;
+    #endif
+
+    vec2 i = vec2(p);
+    float c = 1.0;
+    float inten = .005;
+
+    for (int n = 0; n < MAX_ITER; n++) 
+    {
+      float t = time * (1.0 - (3.5 / float(n+1)));
+      i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+      c += 1.0/length(vec2(p.x / (sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
+    }
+    c /= float(MAX_ITER);
+    c = 1.17-pow(c, 1.4);
+    vec3 colour = vec3(pow(abs(c), 8.0));
+      colour = clamp(colour + vec3(0.0, 0.35, 0.5), 0.0, 1.0);
+      
+
+    #if SHOW_TILING
+      // Flash tile borders...
+      vec2 pixel = 2.0 / iResolution.xy;
+      uv *= 2.0;
+
+      float f = floor(mod(cc_time.x*.5, 2.0)); 	// Flash value.
+      vec2 first = step(pixel, uv) * f;		   	// Rule out first screen pixels and flash.
+      uv  = step(fract(uv), pixel);				// Add one line of pixels per tile.
+      colour = mix(colour, vec3(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y); // Yellow line
+    #endif
+
+    gl_FragColor = vec4(colour, 1.0);
+  }
+}%

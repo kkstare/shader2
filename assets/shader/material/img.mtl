@@ -12,8 +12,8 @@
       "defines": {
         "USE_TEXTURE": true,
         "IS_CUT": false,
-        "IS_FLUXAY": true,
-        "IS_BLUR": false,
+        "IS_FLUXAY": false,
+        "IS_BLUR": true,
         "IS_FUSE": false,
         "IS_CIRCLE": false,
         "IS_POLYGON": false,
@@ -27,7 +27,7 @@
           "x": 512,
           "y": 512
         },
-        "radius": 20,
+        "radius": 2.6,
         "fluaxyColor": {
           "__type__": "cc.Color",
           "r": 0,

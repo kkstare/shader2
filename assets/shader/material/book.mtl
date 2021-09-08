@@ -1,0 +1,33 @@
+{
+  "__type__": "cc.Material",
+  "_name": "book",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "d6b00447-e1c5-4412-9443-be3feade21ed"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "angle": 50.6,
+        "length": 0.2,
+        "texture1": {
+          "__uuid__": "5213fc2e-e767-47f3-9664-3a696a6e01a9"
+        },
+        "texture2": {
+          "__uuid__": "9708b9d2-541e-4c9c-afdd-9aae818106c8"
+        },
+        "texture3": {
+          "__uuid__": "d3e403a6-a90e-4759-9e29-68ae00aacc8c"
+        },
+        "texture4": {
+          "__uuid__": "98b75cd8-199c-444c-9edf-062a6e5385ba"
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}

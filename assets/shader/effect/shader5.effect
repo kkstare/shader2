@@ -1,0 +1,147 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+// https://www.shadertoy.com/view/tsKXR3 先放一放 又有奇怪的问题
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    v_uv0 = a_uv0;
+    #endif
+
+    v_color = a_color;
+
+    gl_Position = pos;
+  }
+}%
+
+
+CCProgram fs %{
+  #extension GL_EXT_shader_texture_lod : enable
+  precision highp float;
+
+  #include <alpha-test>
+  #include <texture>
+  #include <cc-global>
+  #include <cc-local>
+  // #include <texture-lod>
+  in vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  #endif
+
+  #define BUMP 3200.0
+
+  #define D(d) texture2DLodEXT(texture, fract(uv+(d+0.0)), 0.1).w
+
+  #define iResolution vec2(512.0,512.0)
+  vec2 diff(vec2 uv, float mip) {
+      vec2 texel = 1.0/iResolution.xy;
+      // vec4 t = float(pow(2, int(mip))) *vec4(texel, -texel.y, 0);
+      vec4 t = float(mip*mip/2.0) *vec4(texel, -texel.y, 0);
+
+      float d =    D( t.ww); float d_n =  D( t.wy); float d_e =  D( t.xw);
+      float d_s =  D( t.wz); float d_w =  D(-t.xw); float d_nw = D(-t.xz);
+      float d_sw = D(-t.xy); float d_ne = D( t.xy); float d_se = D( t.xz);
+      
+      return vec2(
+          0.5 * (d_e - d_w) + 0.25 * (d_ne - d_nw + d_se - d_sw),
+          0.5 * (d_n - d_s) + 0.25 * (d_ne + d_nw - d_se - d_sw)
+      );
+  }
+
+  vec4 contrast(vec4 col, float x) {
+    return x * (col - 0.5) + 0.5;
+  }
+
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+      CCTexture(texture, v_uv0, o);
+    #endif
+
+     vec2 uv = gl_FragCoord.xy / iResolution.xy;
+
+    vec2 dxy = vec2(0);
+    float occ, mip = 0.0;
+    float d   = D();
+    
+    // blur the gradient to reduce appearance of artifacts,
+    // and do cheap occlusion with mipmaps
+    #define STEPS 10.0
+    #define ODIST 2.0
+    for(mip = 1.0; mip <= STEPS; mip += 1.0) {	 
+        dxy += (1.0/pow(2.0,mip)) * diff(uv, mip-1.0);	
+    	occ += softclamp(-ODIST, ODIST, d - D(),1.0)/(pow(1.5,mip));
+    }
+    dxy /= float(STEPS);
+    
+    // I think this looks nicer than using smoothstep
+    occ = pow(max(0.0,softclamp(0.2,0.8,100.0*occ + 0.5,1.0)),0.5);
+ 
+    vec3 avd;
+    vec3 ld = light(uv, BUMP, 0.5, dxy, cc_time.x, avd);
+    
+    float spec = ggx(avd, vec3(0,1,0), ld, 0.1, 0.1);
+    
+    #define LOG_SPEC 1000.0
+    spec = (log(LOG_SPEC+1.0)/LOG_SPEC)*log(1.0+LOG_SPEC*spec);    
+    
+    // #define VIEW_VELOCITY
+    
+    // #if VIEW_VELOCITY
+		//   vec4 diffuse = softclamp(0.0,1.0,6.0*vec4(texture(iChannel0,uv).xy,0,0)+0.5,2.0);    
+    // #if VIEW_CURL
+		//   vec4 diffuse = mix(vec4(1,0,0,0),vec4(0,0,1,0),softclamp(0.0,1.0,0.5+2.0*texture(iChannel2,uv).w,2.0));    
+    // #if VIEW_ADVECTION
+		//   vec4 diffuse = softclamp(0.0,1.0,0.0004*vec4(texture(iChannel0,uv).zw,0,0)+0.5,2.0); 
+    // #if VIEW_GRADIENT
+    // 	vec4 diffuse = softclamp(0.0,1.0,10.0*vec4(diff(uv,0.0),0,0)+0.5,4.0); 
+    // #else // Vorticity confinement vectors
+    // 	vec4 diffuse = softclamp(0.0,1.0,4.0*vec4(texture(iChannel3,uv).xy,0,0)+0.5,4.0);
+    // #endif
+    
+    
+    gl_FragColor = (diffuse + 4.0*mix(vec4(spec),1.5*diffuse*spec,0.3));
+    gl_FragColor = mix(1.0,occ,0.7) * (softclamp(0.0,1.0,contrast(gl_FragColor,4.5),3.0));
+  }
+}%

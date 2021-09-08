@@ -137,15 +137,18 @@ CCProgram fs %{
     float sum = 0.0; // 总权重
     
     // 这个地方的RADIUS一定要是const类型的
-    const float RADIUS = 10.0;
+    const float RADIUS = 20.0;
     vec2 size = vec2(500,417);
     // 卷积过程
     for (float r = -RADIUS; r <= RADIUS; r++) { // 水平方向
       for (float c = -RADIUS; c <= RADIUS; c++) { // 垂直方向
-        vec2 target = pos + vec2(r / size.x, c / size.y); // 目标像素位置
-        float weight = (RADIUS - abs(r)) * (RADIUS - abs(c)); // 计算权重
-        color += texture2D(texture, target) * weight; // 累加颜色
-        sum += weight; // 累加权重
+        if( abs(r) < radius  && abs(c) < radius ){
+          vec2 target = pos + vec2(r / size.x, c / size.y); // 目标像素位置
+          float weight = (RADIUS - abs(r)) * (RADIUS - abs(c)); // 计算权重
+          color += texture2D(texture, target) * weight; // 累加颜色
+          sum += weight; // 累加权重
+        }
+      
       }
     }
     color /= sum; // 求出平均值

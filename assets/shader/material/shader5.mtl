@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.Material",
+  "_name": "shader5",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "acefa40e-254d-40e2-aac1-3e9d916fb6ea"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "texture": {
+          "__uuid__": "ba1f1251-e9ea-49a5-9ade-8c53871da77b"
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}

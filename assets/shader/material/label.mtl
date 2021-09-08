@@ -11,13 +11,13 @@
     "0": {
       "defines": {
         "USE_TEXTURE": true,
-        "USE_DYNAMIC": true,
+        "USE_DYNAMIC": false,
         "USE_ALPHA_TEST": false,
         "USE_COLOR": true,
         "IS_VERTICAL": false,
         "IS_HORIZONTAL": false,
         "IS_OUTLINE": false,
-        "IS_DYNAMIC": false
+        "IS_DYNAMIC": true
       },
       "props": {
         "beginColor": {
