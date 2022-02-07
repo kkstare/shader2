@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "fb48ee50-7cd6-4654-be6c-037d0d813bef",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "zaoshen2": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "c25749b0-8df6-4311-8e2a-3825b2deb8da",
+      "importer": "sprite-frame",
       "rawTextureUuid": "fb48ee50-7cd6-4654-be6c-037d0d813bef",
       "trimType": "auto",
       "trimThreshold": 1,

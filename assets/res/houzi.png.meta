@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "475ce860-48dc-450b-99de-90f716363cd0",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "houzi": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "dec48bc1-563b-4583-8f0d-56abdc647fba",
+      "importer": "sprite-frame",
       "rawTextureUuid": "475ce860-48dc-450b-99de-90f716363cd0",
       "trimType": "auto",
       "trimThreshold": 1,

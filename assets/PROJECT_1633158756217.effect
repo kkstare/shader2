@@ -1,0 +1,100 @@
+
+CCEffect %{
+techniques: 
+  - passes: 
+      - vert: vs
+        frag: fs
+        blendState: 
+          targets: 
+            - blend: true
+        rasterizerState: 
+          cullMode: none
+        properties: 
+          texture: 
+            value: white
+          uCenter: 
+            value: 
+              - 0.5
+              - 0.5
+          uSize: 
+            value: 
+              - 300
+              - 300
+          uIntensity: 
+            value: 0.3
+}%
+        
+CCProgram vs %{
+    precision highp float;
+    #include <cc-global>
+    #include <cc-local>
+
+    in vec3 a_position;
+    #if USE_TEXTURE
+        in vec2 a_uv0;
+        out vec2 v_uv0;
+    #endif  
+    in vec4 a_color;
+    out vec4 v_color;
+
+    void main () {
+        mat4 mvp;
+        #if CC_USE_MODEL
+            mvp = cc_matViewProj * cc_matWorld;
+        #else
+            mvp = cc_matViewProj;
+        #endif
+
+        #if USE_TEXTURE
+            v_uv0 = a_uv0;
+        #endif
+
+        #if USE_TINT
+            // clear warning for spine
+        #endif
+
+        v_color = a_color;
+        gl_Position = mvp * vec4(a_position, 1);
+    }
+}%
+        
+CCProgram fs %{
+    precision highp float;
+    #include <cc-global>
+    #if USE_TEXTURE
+        in vec2 v_uv0;
+        uniform sampler2D texture;
+    #endif
+    in vec4 v_color;
+    uniform Constant {
+		vec2 uCenter;
+		vec2 uSize;
+		float uIntensity;
+	};
+
+    vec2 c_UV0_main_4() {
+	    return v_uv0;
+	}
+	vec4 c_RadialBlur_main_3(sampler2D Tex, vec2 UV, vec2 Center, vec2 Size, float Intensity) 
+	{
+	    vec2 normalizedSize = vec2(1.0 / Size);
+	    vec4 sum = vec4(0.0);
+	    UV += normalizedSize * 0.5 - Center;
+	    for (float i = 0.0; i < 30.0; i++) {
+	        float offset = 1.0 - Intensity * (i / (30.0 - 1.0));
+	        sum += texture2D(Tex, UV * offset + Center);
+	    }
+	    return vec4(sum / (30.0 - 1.0));
+	}
+	vec4 c_Output_main_1(vec4 Color) { 
+	    return Color; 
+	}
+	void main()                                    
+	{                                              
+	    vec2 out_UV_UV0_4 = c_UV0_main_4();
+	    vec4 out_Output_RadialBlur_3 = c_RadialBlur_main_3(texture, vec2(out_UV_UV0_4), vec2(uCenter), vec2(uSize), uIntensity);
+	    gl_FragColor = c_Output_main_1(vec4(out_Output_RadialBlur_3));
+	}                                              
+	
+}%
+        

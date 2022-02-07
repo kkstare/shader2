@@ -1,21 +1,26 @@
 {
   "title": "shader2",
   "packageName": "org.cocos2d.demo",
-  "startScene": "52cbea2f-7f10-48ce-aba3-3d4f0c8b243a",
-  "excludeScenes": [],
+  "startScene": "1df2f245-107c-40ae-8f5f-e1c26dd03f5e",
+  "excludeScenes": [
+    "477fbe7a-cac8-4899-a5dd-bd802819c221",
+    "d1106267-0dcf-49a9-ae1f-97c801092dfd",
+    "3e44d104-3e39-4ef1-a4eb-2ffe1ba00640",
+    "52cbea2f-7f10-48ce-aba3-3d4f0c8b243a"
+  ],
   "orientation": {
     "landscapeLeft": true,
     "landscapeRight": true,
     "portrait": false,
     "upsideDown": false
   },
-  "webOrientation": "auto",
+  "webOrientation": "landscape",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "mainCompressionType": "default",
   "mainIsRemote": false,
   "optimizeHotUpdate": false,
-  "md5Cache": true,
+  "md5Cache": false,
   "nativeMd5Cache": true,
   "encryptJs": true,
   "xxteaKey": "b9443499-d96c-43",

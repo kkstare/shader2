@@ -1,0 +1,30 @@
+{
+    "__type__": "cc.Material",
+    "_name": "PROJECT_1633158756217",
+    "_objFlags": 0,
+    "_native": "",
+    "_effectAsset": {
+        "__uuid__": "6c967fae-3776-416b-8aa1-c558406977be"
+    },
+    "_techniqueIndex": 0,
+    "_techniqueData": {
+        "0": {
+            "props": {
+                "uCenter": {
+                    "__type__": "cc.Vec2",
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "uSize": {
+                    "__type__": "cc.Vec2",
+                    "x": 300,
+                    "y": 300
+                },
+                "uIntensity": "0.3"
+            },
+            "defines": {
+                "USE_TEXTURE": true
+            }
+        }
+    }
+}
