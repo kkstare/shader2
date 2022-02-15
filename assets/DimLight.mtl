@@ -1,0 +1,25 @@
+{
+  "__type__": "cc.Material",
+  "_name": "DimLight",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "6f95628e-b3b5-4b0f-b19c-e567ca1fedd6"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "uPos": {
+          "__type__": "cc.Vec2",
+          "x": 0.7,
+          "y": 0.5
+        },
+        "uRadius": 0.8
+      },
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.Material",
+  "_name": "shadow",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "75931ab4-2754-4fc2-8fec-5e8f7b5af749"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true
+      },
+      "props": {
+        "iChannel1": {
+          "__uuid__": "a80a9785-6415-4c6e-bec4-434a720e167b"
+        },
+        "iChannel0": {
+          "__uuid__": "e4589eb6-9b11-4e4a-ba6c-6e5a6b77828f"
+        },
+        "iChannel2": {
+          "__uuid__": "ac0d3cee-148b-4337-bd39-66718ca447bc"
+        },
+        "iChannel3": {
+          "__uuid__": "531a495e-43e0-4b56-a8d8-669af4ace4b8"
+        }
+      }
+    }
+  }
+}
