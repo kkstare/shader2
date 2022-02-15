@@ -1,0 +1,18 @@
+{
+  "ver": "1.0.27",
+  "uuid": "6f95628e-b3b5-4b0f-b19c-e567ca1fedd6",
+  "importer": "effect",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform mat4 cc_matViewProj;\nuniform mat4 cc_matWorld;\nattribute vec3 a_position;\n#if USE_TEXTURE\n    attribute vec2 a_uv0;\n    varying vec2 v_uv0;\n#endif\nattribute vec4 a_color;\nvarying vec4 v_color;\nvoid main () {\n    mat4 mvp;\n    #if CC_USE_MODEL\n        mvp = cc_matViewProj * cc_matWorld;\n    #else\n        mvp = cc_matViewProj;\n    #endif\n    #if USE_TEXTURE\n        v_uv0 = a_uv0;\n    #endif\n    #if USE_TINT\n    #endif\n    v_color = a_color;\n    gl_Position = mvp * vec4(a_position, 1);\n}",
+        "frag": "\n  precision highp float;\n  #if USE_TEXTURE\n      varying vec2 v_uv0;\n      uniform sampler2D texture;\n  #endif\n  varying vec4 v_color;\n  uniform vec2 uPos;\nuniform float uRadius;\nuniform sampler2D uTex;\n  vec4 DimLight_main(sampler2D Tex, vec2 UV, vec2 Pos, float Radius)\n{\n  vec2 uv = UV;\n    vec4 col = texture2D(Tex, uv);\n    float dist = distance(uv, Pos) / Radius;\n    col.r -= dist;\n     col.g -= dist;\n    col.b -= dist;\n    return col;\n}\nvoid main () {\n    gl_FragColor = DimLight_main(texture, v_uv0, uPos, uRadius);\n}"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\nuniform CCLocal {\n  mat4 cc_matWorld;\n  mat4 cc_matWorldIT;\n};\nin vec3 a_position;\n#if USE_TEXTURE\n    in vec2 a_uv0;\n    out vec2 v_uv0;\n#endif\nin vec4 a_color;\nout vec4 v_color;\nvoid main () {\n    mat4 mvp;\n    #if CC_USE_MODEL\n        mvp = cc_matViewProj * cc_matWorld;\n    #else\n        mvp = cc_matViewProj;\n    #endif\n    #if USE_TEXTURE\n        v_uv0 = a_uv0;\n    #endif\n    #if USE_TINT\n    #endif\n    v_color = a_color;\n    gl_Position = mvp * vec4(a_position, 1);\n}",
+        "frag": "\n  precision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\n  #if USE_TEXTURE\n      in vec2 v_uv0;\n      uniform sampler2D texture;\n  #endif\n  in vec4 v_color;\n  uniform Constant {\n  vec2 uPos;\n  float uRadius;\n};\nuniform sampler2D uTex;\n  vec4 DimLight_main(sampler2D Tex, vec2 UV, vec2 Pos, float Radius)\n{\n  vec2 uv = UV;\n    vec4 col = texture2D(Tex, uv);\n    float dist = distance(uv, Pos) / Radius;\n    col.r -= dist;\n     col.g -= dist;\n    col.b -= dist;\n    return col;\n}\nvoid main () {\n    gl_FragColor = DimLight_main(texture, v_uv0, uPos, uRadius);\n}"
+      }
+    }
+  ],
+  "subMetas": {}
+}

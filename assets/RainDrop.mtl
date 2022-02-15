@@ -1,0 +1,20 @@
+{
+    "__type__": "cc.Material",
+    "_name": "RainDrop",
+    "_objFlags": 0,
+    "_native": "",
+    "_effectAsset": {
+        "__uuid__": "8436d659-12e2-4b56-b601-92d590818c4c"
+    },
+    "_techniqueIndex": 0,
+    "_techniqueData": {
+        "0": {
+            "props": {
+                "uSpeed": 0.5
+            },
+            "defines": {
+                "USE_TEXTURE": true
+            }
+        }
+    }
+}
