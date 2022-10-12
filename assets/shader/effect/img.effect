@@ -58,7 +58,7 @@ CCProgram vs %{
     v_uv0 = a_uv0;
    
       #if IS_SHADOW
-        pos.y = pos.y*2.0;
+        // pos.y = pos.y*2.0;
       #endif
 
     #endif

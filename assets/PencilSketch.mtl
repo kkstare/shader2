@@ -1,0 +1,25 @@
+{
+    "__type__": "cc.Material",
+    "_name": "PencilSketch",
+    "_objFlags": 0,
+    "_native": "",
+    "_effectAsset": {
+        "__uuid__": "14868a87-4bc0-4195-b54e-19eafb0cfae3"
+    },
+    "_techniqueIndex": 0,
+    "_techniqueData": {
+        "0": {
+            "props": {
+                "uSize": {
+                    "__type__": "cc.Vec2",
+                    "x": 300,
+                    "y": 300
+                },
+                "uIntensity": 1.3
+            },
+            "defines": {
+                "USE_TEXTURE": true
+            }
+        }
+    }
+}

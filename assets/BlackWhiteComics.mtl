@@ -1,0 +1,20 @@
+{
+    "__type__": "cc.Material",
+    "_name": "BlackWhiteComics",
+    "_objFlags": 0,
+    "_native": "",
+    "_effectAsset": {
+        "__uuid__": "6f0f974a-5fac-4386-aeaf-f7946d4292b6"
+    },
+    "_techniqueIndex": 0,
+    "_techniqueData": {
+        "0": {
+            "props": {
+                "uEdge": 0.2
+            },
+            "defines": {
+                "USE_TEXTURE": true
+            }
+        }
+    }
+}

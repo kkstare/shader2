@@ -1,0 +1,25 @@
+{
+    "__type__": "cc.Material",
+    "_name": "BlackWhitePencil",
+    "_objFlags": 0,
+    "_native": "",
+    "_effectAsset": {
+        "__uuid__": "4fad99cc-657f-4d4b-afa7-5e025df7da58"
+    },
+    "_techniqueIndex": 0,
+    "_techniqueData": {
+        "0": {
+            "props": {
+                "uSize": {
+                    "__type__": "cc.Vec2",
+                    "x": 300,
+                    "y": 300
+                },
+                "uOffset": 0
+            },
+            "defines": {
+                "USE_TEXTURE": true
+            }
+        }
+    }
+}

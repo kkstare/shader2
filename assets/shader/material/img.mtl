@@ -13,13 +13,13 @@
         "USE_TEXTURE": true,
         "IS_CUT": false,
         "IS_FLUXAY": false,
-        "IS_BLUR": true,
+        "IS_BLUR": false,
         "IS_FUSE": false,
-        "IS_CIRCLE": false,
+        "IS_CIRCLE": true,
         "IS_POLYGON": false,
-        "IS_SHADOW": true,
+        "IS_SHADOW": false,
         "IS_NOISE": false,
-        "IS_WATER": true,
+        "IS_WATER": false,
         "IS_TIGER": false
       },
       "props": {
