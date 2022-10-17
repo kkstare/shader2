@@ -75,6 +75,20 @@ CCProgram fs %{
     };
   #endif
 
+  float getDis(vec2 uv,vec2 point){
+    float radio = size.y/size.x;
+    float doubleDis;
+    if(radio > 1.0){
+      doubleDis = (uv.x - point.x )*(uv.x - point.x )+(uv.y - point.y )*(uv.y - point.y )*radio*radio;
+    }else{
+      doubleDis = (uv.x - point.x )*(uv.x - point.x )/(radio*radio)+(uv.y - point.y )*(uv.y - point.y );
+    }
+
+    float radius = sqrt(doubleDis);
+    float dis = smoothstep(cutRadio -.005,cutRadio,radius);
+    return dis;
+  }
+
   void main () {
     vec4 o = vec4(1, 1, 1, 1);
 
@@ -84,10 +98,14 @@ CCProgram fs %{
         if(cutType <1.0){
           // o.a = 0.5;
           //圆形遮罩
-          float dis =  distance(v_uv0,vec2(0.5,0.5));
+
+          // float dis =  distance(v_uv0,vec2(0.5,0.5));
+          float dis = getDis(v_uv0,vec2(0.5,0.5));
           if(dis>cutRadio){
-            o.a = 0.0;
+            discard;
           }
+
+
         }else if(cutType<2.0){
           o.a = 0.1;
         }

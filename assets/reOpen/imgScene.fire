@@ -328,7 +328,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
-    "_id": "c3WYARrk1LYZnsaTDrpalF"
+    "_id": "67UU4V3jdCY6NfCPVZMGwh"
   },
   {
     "__type__": "8dbb80v0bVP6LdpaIUi7XPr",
@@ -338,16 +338,16 @@
       "__id__": 5
     },
     "_enabled": true,
-    "size": {
+    "rectSize": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_id": "63ykqreYpDhJSOaba/HOKM"
+    "_id": "04WYHDjIJHbqfnjehQKxA+"
   },
   {
     "__type__": "cc.Node",
-    "_name": "cut",
+    "_name": "tree2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -373,8 +373,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 195,
-      "height": 270
+      "width": 600,
+      "height": 418
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -385,15 +385,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        268.141,
-        9.742,
+        -281.698,
+        4.158,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -408,7 +408,7 @@
     "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "can3Xp3QlELZHzBUWsklwE"
+    "_id": "1alPBf9hRM04sHFS6qC+2y"
   },
   {
     "__type__": "cc.Sprite",
@@ -426,7 +426,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "792fe74e-fd66-4ba5-be63-dd4936cb216a"
+      "__uuid__": "25bbd773-4efa-4da8-ba6e-37afcc1a93fb"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -440,7 +440,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
-    "_id": "06/SblxqBLz58EJq9Izwrm"
+    "_id": "36wW69mq5PdZBMiixrTWvA"
   },
   {
     "__type__": "8dbb80v0bVP6LdpaIUi7XPr",
@@ -450,12 +450,12 @@
       "__id__": 8
     },
     "_enabled": true,
-    "size": {
+    "rectSize": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
     },
-    "_id": "d88M/7F5pDTp09QBu3yVCn"
+    "_id": "101DxKRY9KUIUioS9wabfk"
   },
   {
     "__type__": "cc.Canvas",

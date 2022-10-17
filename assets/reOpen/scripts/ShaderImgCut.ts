@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, inspector, property } = cc._decorator;
 
 
 // export const E_ImgCutType = cc.Enum({
@@ -32,6 +32,18 @@ export default class ShaderImgCut extends cc.Component {
     private _isCut: Boolean = true;
     private _radio: number = 0.5;
 
+
+    onLoad() {
+
+    }
+
+    private _size: cc.Vec2;
+    public get size(): cc.Vec2 {
+        return this._size;
+    }
+    public set size(value: cc.Vec2) {
+        this._size = value;
+    }
 
 
     @property({ type: Boolean })
@@ -66,15 +78,17 @@ export default class ShaderImgCut extends cc.Component {
 
 
     @property({ type: cc.v2, visible() { return this.cutType == E_ImgCutType.矩形 } })
-    size = cc.v2(0, 0)
+    rectSize = cc.v2(0, 0)
 
 
     reSetIsCut() {
-        this.node.getComponent(cc.Sprite).getMaterial(0).setProperty
+        // this.node.getComponent(cc.Sprite).getMaterial(0).setProperty
     }
 
     reSetValue() {
-        this.node.getComponent(cc.Sprite).getMaterial(0).setProperty("cutType", E_CutType.圆形)
+        this.node.getComponent(cc.Sprite).getMaterial(0).setProperty("size", [this.node.getContentSize().width, this.node.getContentSize().height])
+
+
         if (this.cutType == E_ImgCutType.圆形) {
             this.node.getComponent(cc.Sprite).getMaterial(0).setProperty("cutType", E_CutType.圆形)
             this.node.getComponent(cc.Sprite).getMaterial(0).setProperty("cutRadio", this.radio)
@@ -86,7 +100,8 @@ export default class ShaderImgCut extends cc.Component {
     }
 
     start() {
-
+        this.reSetIsCut()
+        this.reSetValue()
     }
 
     // update (dt) {}
